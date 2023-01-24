@@ -2,10 +2,16 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row, Button, Card, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { createAccount } from "../store/features/userSlice";
+import {
+  clearAuthError,
+  createAccount,
+} from "../store/features/userSlice";
+import emailIsValid from "../utils/EmailValidation";
 
 function CreateAccount() {
-  const { accountCreated } = useSelector((state) => state.user);
+  const { accountCreated, error, accountCreatedButton } = useSelector(
+    (state) => state.user
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -15,8 +21,12 @@ function CreateAccount() {
   });
 
   useEffect(() => {
+    dispatch(clearAuthError());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (accountCreated) {
-      navigate("/");
+      navigate("/login");
     }
   }, [accountCreated, navigate]);
 
@@ -33,6 +43,14 @@ function CreateAccount() {
     const { name, email, password } = formData;
     if (name === "" || email === "" || password === "") {
       return alert("Please fill");
+    }
+    const checkEmail = emailIsValid(email);
+    console.log("checkEmail:", checkEmail);
+    if (checkEmail === false) {
+      return alert("It should be email");
+    }
+    if (password.length < 6) {
+      return alert("Password length should be 6 words");
     }
     dispatch(createAccount({ name, email, password }));
     setFormData({
@@ -51,6 +69,11 @@ function CreateAccount() {
             <Card className="shadow-sm">
               <Card.Header>Gullar</Card.Header>
               <Card.Body>
+                {error && (
+                  <p className="text-center">
+                    <kbd>{error}</kbd>
+                  </p>
+                )}
                 <Form>
                   <Form.Group className="mb-3" controlId="formBasicName">
                     <Form.Label>Name</Form.Label>
@@ -59,6 +82,8 @@ function CreateAccount() {
                       placeholder="Enter name"
                       name="name"
                       onChange={handleForm}
+                      value={formData.name}
+                      required
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -68,6 +93,8 @@ function CreateAccount() {
                       placeholder="Enter email"
                       name="email"
                       onChange={handleForm}
+                      value={formData.email}
+                      required
                     />
                   </Form.Group>
                   <Form.Group className="mb-4" controlId="formBasicPassword">
@@ -77,6 +104,8 @@ function CreateAccount() {
                       placeholder="Password"
                       name="password"
                       onChange={handleForm}
+                      value={formData.password}
+                      required
                     />
                   </Form.Group>
                   <div className="d-grid gap-2">
@@ -85,8 +114,9 @@ function CreateAccount() {
                       type="submit"
                       size="md"
                       onClick={submitForm}
+                      disabled={accountCreatedButton}
                     >
-                      Create new account
+                      {!accountCreatedButton ? "Create new account" : "Wait..."}
                     </Button>
                   </div>
                 </Form>

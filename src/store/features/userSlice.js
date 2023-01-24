@@ -5,9 +5,11 @@ const initialState = {
   userProfile: {},
   logout: false,
   profileLoading: true,
+  loginButtonBasedOnProfile: false,
   error: "",
   updated: false,
   accountCreated: false,
+  accountCreatedButton: false,
   deleted: false,
   accountVarified: false,
   accountVarifiedError: "",
@@ -33,10 +35,10 @@ export const createAccount = createAsyncThunk(
       .catch((err) => {
         console.log("err", err);
         if (err.response.status === 404) {
-          throw Error(err.message);
+          throw Error("Bad Request");
         }
         if (err.response.status === 500) {
-          throw Error(err.message);
+          throw Error("Server Errors");
         }
         if (err.response.status !== 404) {
           throw Error(err.response.data.message);
@@ -263,20 +265,29 @@ const userSlice = createSlice({
       state.forgotPasswordInfo = "";
       state.forgotPasswordInfoError = "";
     },
+    clearAuthError: (state, action) => {
+      state.error = "";
+    },
+    clearAccountCreated: (state, action) => {
+      state.accountCreated = false;
+    },
   },
   extraReducers: (builder) => {
     // ! Account create
     builder.addCase(createAccount.pending, (state) => {
       state.accountCreated = false;
       state.error = "";
+      state.accountCreatedButton = true;
     });
     builder.addCase(createAccount.fulfilled, (state, action) => {
       state.accountCreated = true;
       state.error = "";
+      state.accountCreatedButton = false;
     });
     builder.addCase(createAccount.rejected, (state, action) => {
       state.accountCreated = false;
       state.error = action.error.message;
+      state.accountCreatedButton = false;
     });
 
     // ! Login
@@ -284,17 +295,19 @@ const userSlice = createSlice({
       state.profileLoading = true;
       state.userProfile = {};
       state.error = "";
+      state.loginButtonBasedOnProfile = true;
     });
     builder.addCase(loginAccount.fulfilled, (state, action) => {
       state.profileLoading = false;
       state.userProfile = action.payload;
-      console.log("action.payload:", action.payload);
       state.error = "";
+      state.loginButtonBasedOnProfile = false;
     });
     builder.addCase(loginAccount.rejected, (state, action) => {
       state.profileLoading = true;
       state.userProfile = {};
-      state.error = "please Login"
+      state.error = action.error.message;
+      state.loginButtonBasedOnProfile = false;
     });
 
     // ! get Profile
@@ -311,7 +324,7 @@ const userSlice = createSlice({
     builder.addCase(getUserProfile.rejected, (state, action) => {
       state.profileLoading = true;
       state.userProfile = {};
-      state.error = "please Login";
+      state.error = "";
     });
 
     // ! userLogout
@@ -415,5 +428,9 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { clearUpdatedInfoAndError, clearForgotPasswordInfoAndError } =
-  userSlice.actions;
+export const {
+  clearUpdatedInfoAndError,
+  clearForgotPasswordInfoAndError,
+  clearAuthError,
+  clearAccountCreated
+} = userSlice.actions;

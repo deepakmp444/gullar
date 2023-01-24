@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Modal,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addUserCart } from "../store/features/cartSlice";
 import {
   deleteUserWishlist,
   fetchWishlist,
@@ -16,6 +10,9 @@ import {
 function Wishlist() {
   const { wishlist, deletedWishlistStatus } = useSelector(
     (state) => state.wishlist
+  );
+  const { cartCreatedMessage, cartCreatedMessageStatus } = useSelector(
+    (state) => state.cartList
   );
   const [showDelete, setShowDelete] = useState(false);
   const dispatch = useDispatch();
@@ -31,6 +28,12 @@ function Wishlist() {
     }
   }, [deletedWishlistStatus]);
 
+  useEffect(() => {
+    if (cartCreatedMessageStatus) {
+      alert(cartCreatedMessage);
+    }
+  }, [cartCreatedMessage, cartCreatedMessageStatus]);
+
   const handleCloseDelete = () => {
     setShowDelete(false);
   };
@@ -43,20 +46,44 @@ function Wishlist() {
     setShowDelete(true);
   };
 
+  const handleCart = (value) => {
+    console.log("value:", value);
+
+    dispatch(
+      addUserCart({
+        userId: value.userId,
+        productId: value.productId,
+        productType: value.productType,
+        heading: value.heading,
+        subHeading: value.subHeading,
+        imgUrl: value.imgUrl,
+        qty: value.qty,
+        size: value.size,
+        color: value.color,
+        price: value.price,
+        mrp: value.mrp,
+      })
+    );
+    dispatch(deleteUserWishlist({ id: value.id }));
+  };
   return (
     <Container style={{ marginTop: "70px" }}>
       <Row>
         <Col sm={2}></Col>
         <Col sm={8}>
           <h3 className="mb-3">Your wishlist cart</h3>
-          {wishlist.length === 0 && <h5 className="text-center">No product added in your Wishlist</h5>}
+          {wishlist.length === 0 && (
+            <h5 className="text-center">No product added in your Wishlist</h5>
+          )}
           {wishlist.map((value) => {
             return (
               <Card className="bg-light p-2 mb-3" key={value.id}>
                 <Row>
                   <Row>
                     <Col sm={2}>
-                      <Link to={`/product/${value.productType}/${value.productId}`}>
+                      <Link
+                        to={`/product/${value.productType}/${value.productId}`}
+                      >
                         <img
                           src={value.imgUrl}
                           className="rounded mx-auto d-block rounded"
@@ -92,7 +119,11 @@ function Wishlist() {
                         >
                           Remove
                         </Button>
-                        <Button variant="success" size="sm">
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={() => handleCart(value)}
+                        >
                           Add to Cart
                         </Button>
                       </div>

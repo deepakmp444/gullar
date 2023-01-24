@@ -2,16 +2,32 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row, Button, Card, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAccount } from "../store/features/userSlice";
+import {
+  clearAccountCreated,
+  clearAuthError,
+  loginAccount,
+} from "../store/features/userSlice";
 
 function Login() {
-  const { error, profileLoading } = useSelector((state) => state.user);
+  const { error, profileLoading, loginButtonBasedOnProfile } = useSelector(
+    (state) => state.user
+  );
+  console.log("profileLoading:", profileLoading);
+  console.log('loginButtonBasedOnProfile:', loginButtonBasedOnProfile)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  useEffect(() => {
+    dispatch(clearAccountCreated());
+  }, []);
+
+  useEffect(() => {
+    dispatch(clearAuthError());
+  }, [dispatch]);
 
   useEffect(() => {
     if (profileLoading === false) {
@@ -33,6 +49,11 @@ function Login() {
     if (email === "" || password === "") {
       return alert("Please fill");
     }
+
+    if (password.length < 6) {
+      return alert("Password length should be 6 words");
+    }
+
     dispatch(loginAccount({ email, password }));
     setFormData({
       email: "",
@@ -76,8 +97,13 @@ function Login() {
                     />
                   </Form.Group>
                   <div className="d-grid gap-2">
-                    <Button variant="primary" type="submit" size="md">
-                      Login
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      size="md"
+                      disabled={loginButtonBasedOnProfile}
+                    >
+                      {!loginButtonBasedOnProfile ? "Login" : "Wait..."}
                     </Button>
                   </div>
                 </Form>

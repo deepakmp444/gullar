@@ -6,7 +6,7 @@ import Star from "../Icons/Star";
 
 function ProductReview({ id }) {
   const { review } = useSelector((state) => state.review);
-  console.log("review:", review);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchReview({ id }));
@@ -16,7 +16,7 @@ function ProductReview({ id }) {
     <div>
       {review.map((value, index) => {
         return (
-          <Card key={index}>
+          <Card key={index} className="mb-2">
             <div className="p-3">
               <h5>{value.name} ✅ </h5>
               <div className="d-flex mb-2" style={{ marginTop: "-5px" }}>

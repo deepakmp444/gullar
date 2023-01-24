@@ -6,6 +6,7 @@ import {
   clearForgotPasswordInfoAndError,
   userForgotPassword,
 } from "../store/features/userSlice";
+import emailIsValid from "../utils/EmailValidation";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -32,6 +33,11 @@ function ForgotPassword() {
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
+    const checkEmail = emailIsValid(email);
+    if (checkEmail === false) {
+      return alert("It should be email");
+    }
+    console.log("checkEmail:", checkEmail);
     dispatch(userForgotPassword({ email }));
   };
   return (
@@ -57,6 +63,7 @@ function ForgotPassword() {
                     type="email"
                     placeholder="Enter email"
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </Form.Group>
                 <div className="d-grid gap-2">
