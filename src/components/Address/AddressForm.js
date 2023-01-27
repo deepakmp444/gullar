@@ -89,6 +89,12 @@ function AddressForm({ hideButton = "false" }) {
     if (!formAddress.email.match(validRegex)) {
       return alert("Please Enter email address");
     }
+    if(formAddress.phone.length <10){
+      return alert("Phone number at least 10 Digit number");
+    }
+    if(formAddress.pincode.length <6){
+      return alert("Pincode number at least 6 Digit number");
+    }
 
     dispatch(
       addUserAddress({
@@ -144,7 +150,7 @@ function AddressForm({ hideButton = "false" }) {
           <Form.Group className="mb-3" controlId="formBasicPhone">
             <Form.Label>Phone</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               placeholder="Enter phone number"
               name="phone"
               value={formAddress.phone}
@@ -196,7 +202,7 @@ function AddressForm({ hideButton = "false" }) {
           <Form.Group className="mb-3" controlId="formBasicPincode">
             <Form.Label>Pincode</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               placeholder="Enter pincode"
               name="pincode"
               value={formAddress.pincode}
