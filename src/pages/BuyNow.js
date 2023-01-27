@@ -1,18 +1,12 @@
 import { useEffect } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddressCard from "../components/Address/AddressCard";
 import AddressForm from "../components/Address/AddressForm";
 import { fetchAddress } from "../store/features/addressSlice";
-
+import { url } from "../utils/Constant";
 function BuyNow() {
   const { buyNowProduct } = useSelector((state) => state.order);
   console.log("buyNowProduct:", buyNowProduct);
@@ -68,10 +62,10 @@ function BuyNow() {
     );
 
     setCookie("orderAddress", orderAddress, { path: "/" });
-    
+
     setCookie("buyNowProduct", buyNowProduct, { path: "/" });
 
-    const response = await fetch("http://localhost:9000/api/v1/orders/", {
+    const response = await fetch(`${url}/api/v1/orders/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +83,7 @@ function BuyNow() {
       description: "Test Transaction",
       image: "https://avatars.githubusercontent.com/u/48873989?v=4",
       order_id: order.response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      callback_url: "http://localhost:9000/api/v1/order-verification",
+      callback_url: `${url}/api/v1/order-verification`,
       prefill: {
         name: orderAddress.name,
         email: orderAddress.email,
@@ -125,12 +119,18 @@ function BuyNow() {
         </Col>
         <Col sm={4}>
           <Card className="p-4 mb-2" style={{ backgroundColor: "#f2f2f2" }}>
-          <strong>Products</strong>
+            <strong>Products</strong>
             {buyNowProduct.map((value, index) => {
               return (
                 <div key={index} className="d-flex mt-2">
-                  <img src={value.imgUrl} className="rounded" alt="" height="50" width="50" />
-                  <div className="ms-2">{value.heading}</div>        
+                  <img
+                    src={value.imgUrl}
+                    className="rounded"
+                    alt=""
+                    height="50"
+                    width="50"
+                  />
+                  <div className="ms-2">{value.heading}</div>
                 </div>
               );
             })}
