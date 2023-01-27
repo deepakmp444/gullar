@@ -1,1 +1,2 @@
-export const url = "http://localhost:9000"
+export const url = process.env.REACT_APP_API
+console.log('url:', url)
