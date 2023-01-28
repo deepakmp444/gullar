@@ -70,7 +70,6 @@ function NavBarComponet() {
   const handleLogout = () => {
     dispatch(userLogout());
     navigate("/");
-    window.location.reload();
   };
 
   return (
