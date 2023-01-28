@@ -48,25 +48,28 @@ function NavBarComponet() {
   };
   const goToCart = () => {
     if (
-      !(Object.keys(userProfile).length === 0 &&
-      userProfile.constructor === Object)
+      !(
+        Object.keys(userProfile).length === 0 &&
+        userProfile.constructor === Object
+      )
     ) {
       navigate("/cart");
     }
-    
   };
   const goToWishlist = () => {
     if (
-      !(Object.keys(userProfile).length === 0 &&
-      userProfile.constructor === Object)
+      !(
+        Object.keys(userProfile).length === 0 &&
+        userProfile.constructor === Object
+      )
     ) {
       navigate("/wishlist");
     }
-    
   };
 
   const handleLogout = () => {
     dispatch(userLogout());
+    navigate("/");
     window.location.reload();
   };
 
