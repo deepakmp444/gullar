@@ -8,7 +8,7 @@ import WishListIcon from "../Icons/WishListIcon";
 import { useEffect, useState } from "react";
 import { fetchProduct } from "../../store/features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../store/features/userSlice";
+import { clearLogout, userLogout } from "../../store/features/userSlice";
 
 function NavBarComponet() {
   const navigate = useNavigate();
@@ -69,6 +69,7 @@ function NavBarComponet() {
 
   const handleLogout = () => {
     dispatch(userLogout());
+    dispatch(clearLogout());
     navigate("/");
   };
 

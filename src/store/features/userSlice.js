@@ -278,6 +278,9 @@ const userSlice = createSlice({
     clearCreateAccountBtnClickForLogin: (state, action) => {
       state.createAccountBtnClickForLogin = false;
     },
+    clearLogout: (state, action) => {
+      state.userProfile = {};
+    },
   },
   extraReducers: (builder) => {
     // ! Account create
@@ -441,5 +444,6 @@ export const {
   clearAuthError,
   clearAccountCreated,
   createAccountBtnClickForLoginReducer,
-  clearCreateAccountBtnClickForLogin
+  clearCreateAccountBtnClickForLogin,
+  clearLogout
 } = userSlice.actions;

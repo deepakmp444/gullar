@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddressCard from "../components/Address/AddressCard";
@@ -14,7 +14,7 @@ function BuyNow() {
   const { address, orderAddress } = useSelector((state) => state.address);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [show, setShow] = useState(true);
   const backToShop = () => {
     navigate(-1);
   };
@@ -104,6 +104,22 @@ function BuyNow() {
   return (
     <Container>
       <Row style={{ marginTop: "100px" }}>
+        {show && (
+          <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+            <Alert.Heading>
+              In mobile Razorpay payment method does not work Beacause It's in
+              testing Mode
+            </Alert.Heading>
+            <p>Copy and pay by upi methods</p>
+            <button
+              className="btn btn-success"
+              onClick={navigator.clipboard.writeText("success@razorpay")}
+            >
+              Copy
+            </button>
+          </Alert>
+        )}
+
         <Col sm={8} className="mb-5">
           <div>
             <div className="mb-3 text-success">
