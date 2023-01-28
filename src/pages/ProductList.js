@@ -29,49 +29,58 @@ function ProductList() {
                     <kbd>{productList.length}</kbd> {name} found
                   </strong>
                 </div>
-                <Row className="mt-3 mb-5">
-                  {productList.map((value) => {
-                    return (
-                      <Col sm={4} key={value.id} className="mb-3 productlist">
-                        <div className="cardWidth" style={{ width: "250px" }}>
-                          <Link to={`${value.id}`}>
-                            <LazyLoadImage
-                              src={value.ProductPropJson[0].img}
-                              height={250}
-                              effect="blur"
-                              className="rounded"
-                            />
-                          </Link>
-                          <div className="d-flex">
-                            <div className="mt-1">
-                              <Link
-                                className="link"
-                                to={`/product/${value.SubCategory}/${value.id}`}
-                              >
-                                {value.productHeading}
-                              </Link>
+                <Container>
+                  <Row className="mt-3 mb-5 ">
+                    {productList.map((value) => {
+                      return (
+                        <Col
+                          sm={4}
+                          key={value.id}
+                          className="mb-3 d-flex justify-content-center"
+                        >
+                          <div className="" style={{ width: "250px" }}>
+                            <Link to={`${value.id}`}>
+                              <LazyLoadImage
+                                src={value.ProductPropJson[0].img}
+                                height={250}
+                                effect="blur"
+                                className="rounded mx-auto d-block"
+                              />
+                            </Link>
+                            <div className="d-flex">
+                              <div className="mt-1">
+                                <Link
+                                  className="link"
+                                  to={`/product/${value.SubCategory}/${value.id}`}
+                                >
+                                  {value.productHeading}
+                                </Link>
+                              </div>
+                              <div className="mt-1">
+                                <strong>
+                                  <span
+                                    className="text-success"
+                                    style={{ marginLeft: "100px" }}
+                                  >
+                                    Rs&nbsp;
+                                    {Math.min(
+                                      ...value.ProductPropJson.map(
+                                        (product) => product.price
+                                      )
+                                    )}
+                                  </span>
+                                </strong>
+                              </div>
                             </div>
-                            <div className="mt-1">
-                              <strong>
-                                <span className="text-success" style={{marginLeft:"100px"}}>
-                                  Rs&nbsp;
-                                  {Math.min(
-                                    ...value.ProductPropJson.map(
-                                      (product) => product.price
-                                    )
-                                  )}
-                                </span>
-                              </strong>
+                            <div className="text-muted">
+                              {value.productSubheading}
                             </div>
                           </div>
-                          <div className="text-muted">
-                            {value.productSubheading}
-                          </div>
-                        </div>
-                      </Col>
-                    );
-                  })}
-                </Row>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Container>
               </>
             )}
           </Col>

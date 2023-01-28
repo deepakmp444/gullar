@@ -28,79 +28,99 @@ function HomePageCard() {
           </Link>
         </div>
         <div className="">
-          <LazyLoadImage
-            src={MenTShirt}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/mentshirt">
+            <LazyLoadImage
+              src={MenTShirt}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
       </div>
 
       <div className="flex-container mt-3 flex-container-side">
         <div className="item">
-          <LazyLoadImage
-            src={Goggle}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/goggle">
+            <LazyLoadImage
+              src={Goggle}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
         <div className="item">
-          <LazyLoadImage
-            src={Jack}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/jacket">
+            <LazyLoadImage
+              src={Jack}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
         <div className="item">
-          <LazyLoadImage
-            src={Blazers}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/menblazer">
+            <LazyLoadImage
+              src={Blazers}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
         <div className="item">
-          <LazyLoadImage
-            src={Coat}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/coat">
+            <LazyLoadImage
+              src={Coat}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
         <div className="item">
-          <LazyLoadImage
-            src={Sweater}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/sweater">
+            <LazyLoadImage
+              src={Sweater}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
         <div className="item">
-          <LazyLoadImage
-            src={Tops}
-            className="heightOfImg widthOfImg"
-            effect="blur"
-          />
+          <Link to="/product/tops">
+            <LazyLoadImage
+              src={Tops}
+              className="heightOfImg widthOfImg"
+              effect="blur"
+            />
+          </Link>
         </div>
       </div>
 
       <div className="mt-2">
-        <LazyLoadImage
-          src={ProfessionalShirt}
-          className="heightOfBigImg widthOfBigImg"
-          effect="blur"
-        />
+        <Link to="/product/menshirt">
+          <LazyLoadImage
+            src={ProfessionalShirt}
+            className="heightOfBigImg widthOfBigImg"
+            effect="blur"
+          />
+        </Link>
       </div>
       <div className="mt-2">
-        <LazyLoadImage
-          src={Shoe}
-          className="heightOfBigImg widthOfBigImg"
-          effect="blur"
-        />
+        <Link to="/product/shoes">
+          <LazyLoadImage
+            src={Shoe}
+            className="heightOfBigImg widthOfBigImg"
+            effect="blur"
+          />
+        </Link>
       </div>
       <div className="mt-2">
-        <LazyLoadImage
-          src={Hoodie}
-          className="heightOfBigImg widthOfBigImg"
-          effect="blur"
-        />
+        <Link to="/product/hoodies">
+          <LazyLoadImage
+            src={Hoodie}
+            className="heightOfBigImg widthOfBigImg"
+            effect="blur"
+          />
+        </Link>
       </div>
     </Container>
   );
