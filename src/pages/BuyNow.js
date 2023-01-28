@@ -11,6 +11,7 @@ function BuyNow() {
   const { buyNowProduct } = useSelector((state) => state.order);
   console.log("buyNowProduct:", buyNowProduct);
   const { userProfile } = useSelector((state) => state.user);
+  console.log("userProfile:", userProfile);
   const { address, orderAddress } = useSelector((state) => state.address);
   const [cookies, setCookie] = useCookies(["userOrder"]);
   const dispatch = useDispatch();
@@ -55,49 +56,51 @@ function BuyNow() {
     if (!areTruthy) {
       return alert("Please Enter address");
     }
-
-    const totalPrice = await buyNowProduct.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.price,
-      0
-    );
-
-    setCookie("orderAddress", orderAddress, { path: "/" });
-
-    setCookie("buyNowProduct", buyNowProduct, { path: "/" });
-
+    if (totalPrice === 0) {
+      navigate(-1);
+    }
     const response = await fetch(`${url}/api/v1/orders/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: totalPrice }),
+      body: JSON.stringify({
+        amount: totalPrice,
+        userId: userProfile.id,
+        buyNowProduct,
+        orderAddress,
+      }),
     });
+    console.log("response:", response);
 
     const order = await response.json();
+    console.log("order:", order);
     const KEY = process.env.REACT_APP_RAZORPAY_KEY;
-    const options = {
-      key: KEY, // Enter the Key ID generated from the Dashboard
-      amount: order.response.amount,
-      currency: "INR",
-      name: userProfile?.name,
-      description: "Test Transaction",
-      image: "https://avatars.githubusercontent.com/u/48873989?v=4",
-      order_id: order.response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      callback_url: `${url}/api/v1/order-verification`,
-      prefill: {
-        name: orderAddress.name,
-        email: orderAddress.email,
-        contact: orderAddress.phone,
-      },
-      notes: {
-        address: `${orderAddress.landmark},${orderAddress.city},${orderAddress.state},${orderAddress.pincode}`,
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    const razor = new window.Razorpay(options);
-    razor.open();
+    if (order && order.response && order.response.amount && order.response.id) {
+      const options = {
+        key: KEY, // Enter the Key ID generated from the Dashboard
+        amount: order.response.amount,
+        currency: "INR",
+        name: userProfile?.name,
+        description: "Test Transaction",
+        image: "https://avatars.githubusercontent.com/u/48873989?v=4",
+        order_id: order.response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        callback_url: `${url}/api/v1/order-verification`,
+        prefill: {
+          name: orderAddress.name,
+          email: orderAddress.email,
+          contact: orderAddress.phone,
+        },
+        notes: {
+          address: `${orderAddress.landmark},${orderAddress.city},${orderAddress.state},${orderAddress.pincode}`,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+      const razor = new window.Razorpay(options);
+      razor.open();
+    }
   };
 
   return (

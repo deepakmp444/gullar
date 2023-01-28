@@ -10,8 +10,9 @@ import {
   updateUserReview,
 } from "../../store/features/reviewSlice";
 import ReviewModalForm from "./ReviewModalForm";
-
+import moment from "moment";
 function OrderCard({ value }) {
+  console.log("value:", value);
   const {
     updateReviewStatus,
     createdReviewStatus,
@@ -76,15 +77,19 @@ function OrderCard({ value }) {
   };
 
   const showModal = (productId) => {
-    setShow(true);
-    setProductId(productId);
-    dispatch(
-      getReviewFromOrderProductUser({
-        productId,
-        orderId: value.id,
-        userId: userProfile.id,
-      })
-    );
+    if (value.orderStatus !== "Pending" && value.orderStatus !== "Cancel") {
+      setShow(true);
+      setProductId(productId);
+      dispatch(
+        getReviewFromOrderProductUser({
+          productId,
+          orderId: value.id,
+          userId: userProfile.id,
+        })
+      );
+    } else {
+      alert("Your order is not completed");
+    }
   };
 
   const showModalUpdateReview = (id) => {
@@ -104,28 +109,37 @@ function OrderCard({ value }) {
         <Col sm={6}>
           <div>
             <strong>Order Id</strong>: {value.id}
-            <span className="text-success"> &#x2022;{value.orderStatus}</span>
+            <span>
+              {" "}
+              &#x2022;<strong>{value.orderStatus}</strong>
+            </span>
           </div>
-          <div className="text-muted">Date: {value.createdAt}</div>
+          <div className="text-muted">
+            Date: {moment(value.createdAt).format("LLLL")}
+          </div>
         </Col>
-        <Col sm={6}>
-          <Button
-            variant="outline-danger"
-            size="sm"
-            onClick={() => userOrderCancel(value.id)}
-            disabled={value.orderStatus === "Cancel" ? true : false}
-          >
-            Cancel order
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            className="ms-2"
-            disabled={value.trackingId === null ? true : false}
-          >
-            Track order
-          </Button>
-        </Col>
+        {value.orderStatus !== "Pending" && (
+          <Col sm={6}>
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => userOrderCancel(value.id)}
+              disabled={value.orderStatus === "Cancel" ? true : false}
+            >
+              Cancel order
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              className="ms-2"
+              disabled={
+                value.trackingId === null || value.orderStatus === "Cancel"
+              }
+            >
+              Track order
+            </Button>
+          </Col>
+        )}
       </Row>
       <hr />
       <Row>
@@ -146,9 +160,14 @@ function OrderCard({ value }) {
           <div className="text-muted">Payment</div>
           <div>
             <h6>
-              <Badge bg="success">
-                {value.paymentStatus === "true" ? "Success" : "Refunded"}
-              </Badge>
+              {value.paymentStatus === "Pending" && (
+                <Badge bg="warning">Pending</Badge>
+              )}
+              {value.paymentStatus !== "Pending" && (
+                <Badge bg="success">
+                  {value.paymentStatus === "true" ? "Success" : "Refunded"}
+                </Badge>
+              )}
             </h6>
           </div>
         </Col>
@@ -181,6 +200,7 @@ function OrderCard({ value }) {
                   </div>
                 </div>
               </div>
+              {/* {value.orderStatus !== "Pending"} */}
               <Button
                 variant="primary"
                 size="sm"
