@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   clearAuthError,
   createAccount,
+  createAccountBtnClickForLoginReducer,
 } from "../store/features/userSlice";
 import emailIsValid from "../utils/EmailValidation";
 
@@ -27,8 +28,9 @@ function CreateAccount() {
   useEffect(() => {
     if (accountCreated) {
       navigate("/login");
+      dispatch(createAccountBtnClickForLoginReducer());
     }
-  }, [accountCreated, navigate]);
+  }, [accountCreated, dispatch, navigate]);
 
   const handleForm = (e) => {
     e.preventDefault();

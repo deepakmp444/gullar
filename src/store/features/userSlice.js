@@ -19,6 +19,7 @@ const initialState = {
   forgotPasswordInfoError: "",
   PasswordChangeInfo: "",
   PasswordChangeInfoError: "",
+  createAccountBtnClickForLogin: false,
 };
 
 // ! User create account
@@ -271,6 +272,12 @@ const userSlice = createSlice({
     clearAccountCreated: (state, action) => {
       state.accountCreated = false;
     },
+    createAccountBtnClickForLoginReducer: (state, action) => {
+      state.createAccountBtnClickForLogin = true;
+    },
+    clearCreateAccountBtnClickForLogin: (state, action) => {
+      state.createAccountBtnClickForLogin = false;
+    },
   },
   extraReducers: (builder) => {
     // ! Account create
@@ -432,5 +439,7 @@ export const {
   clearUpdatedInfoAndError,
   clearForgotPasswordInfoAndError,
   clearAuthError,
-  clearAccountCreated
+  clearAccountCreated,
+  createAccountBtnClickForLoginReducer,
+  clearCreateAccountBtnClickForLogin
 } = userSlice.actions;

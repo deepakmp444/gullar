@@ -9,11 +9,14 @@ import {
 } from "../store/features/userSlice";
 
 function Login() {
-  const { error, profileLoading, loginButtonBasedOnProfile } = useSelector(
-    (state) => state.user
-  );
+  const {
+    error,
+    profileLoading,
+    loginButtonBasedOnProfile,
+    createAccountBtnClickForLogin,
+  } = useSelector((state) => state.user);
   console.log("profileLoading:", profileLoading);
-  console.log('loginButtonBasedOnProfile:', loginButtonBasedOnProfile)
+  console.log("loginButtonBasedOnProfile:", loginButtonBasedOnProfile);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,11 +32,19 @@ function Login() {
     dispatch(clearAuthError());
   }, [dispatch]);
 
+  const loca = window.location.pathname;
+  console.log("loca:", loca);
   useEffect(() => {
-    if (profileLoading === false) {
+    if (profileLoading === false && createAccountBtnClickForLogin === false) {
       navigate(-1);
     }
-  }, [profileLoading, navigate]);
+  }, [profileLoading, navigate, createAccountBtnClickForLogin]);
+
+  useEffect(() => {
+    if (profileLoading === false && createAccountBtnClickForLogin === true) {
+      navigate("/");
+    }
+  }, [profileLoading, navigate, createAccountBtnClickForLogin]);
 
   const handleForm = (e) => {
     e.preventDefault();

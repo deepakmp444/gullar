@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddressCard from "../components/Address/AddressCard";
@@ -13,7 +12,6 @@ function BuyNow() {
   const { userProfile } = useSelector((state) => state.user);
   console.log("userProfile:", userProfile);
   const { address, orderAddress } = useSelector((state) => state.address);
-  const [cookies, setCookie] = useCookies(["userOrder"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
