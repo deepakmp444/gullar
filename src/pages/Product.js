@@ -179,6 +179,9 @@ function Product() {
     ) {
       navigate("/login");
     } else {
+      if (qty === 0) {
+        return alert("Out of Stock");
+      }
       dispatch(
         gotoProductBucket([
           {
@@ -282,25 +285,29 @@ function Product() {
                     </Col>
                     <Col sm={4}>
                       <p>Qty</p>
-                      <div style={{ marginTop: "-15px" }}>
-                        <Button
-                          type="button"
-                          className="me-2"
-                          variant="danger"
-                          onClick={removeItem}
-                        >
-                          Remove
-                        </Button>
-                        {qty}
-                        <Button
-                          className="ms-2"
-                          type="button"
-                          variant="success"
-                          onClick={addItem}
-                        >
-                          Add
-                        </Button>
-                      </div>
+                      {qty === 0 ? (
+                        <p className="text-warning">Out of Stock</p>
+                      ) : (
+                        <div style={{ marginTop: "-15px" }}>
+                          <Button
+                            type="button"
+                            className="me-2"
+                            variant="danger"
+                            onClick={removeItem}
+                          >
+                            Remove
+                          </Button>
+                          {qty}
+                          <Button
+                            className="ms-2"
+                            type="button"
+                            variant="success"
+                            onClick={addItem}
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      )}
                     </Col>
                   </Row>
                 </div>

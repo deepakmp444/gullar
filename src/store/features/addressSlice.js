@@ -10,6 +10,7 @@ const initialState = {
   updateAddress: false,
   addressCreated: false,
   updateAddressDB: false,
+  updateAddressDBError:"",
   updateAddressId: "",
   deleteAddressStatus: false,
 };
@@ -150,15 +151,15 @@ const addressSlice = createSlice({
     // ! Add Adress
     builder.addCase(addUserAddress.pending, (state) => {
       state.addressCreated = false;
-      state.error = "";
+      state.updateAddressDBError = "";
     });
     builder.addCase(addUserAddress.fulfilled, (state, action) => {
       state.addressCreated = true;
-      state.error = "";
+      state.updateAddressDBError = "";
     });
     builder.addCase(addUserAddress.rejected, (state, action) => {
       state.addressCreated = false;
-      state.error = action.payload;
+      state.updateAddressDBError = "Validation Error";
     });
 
     // ! update Adress

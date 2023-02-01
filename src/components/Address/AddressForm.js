@@ -10,8 +10,14 @@ import {
 import { validRegex } from "../../utils/Validation";
 
 function AddressForm({ hideButton = "false" }) {
-  const { orderAddress, updateAddress, updateAddressId, updateAddressDB } =
-    useSelector((state) => state.address);
+  const {
+    orderAddress,
+    updateAddress,
+    updateAddressId,
+    updateAddressDB,
+    updateAddressDBError,
+    addressCreated,
+  } = useSelector((state) => state.address);
 
   const dispatch = useDispatch();
   console.log("updateAddressDB:", updateAddressDB);
@@ -36,6 +42,12 @@ function AddressForm({ hideButton = "false" }) {
   useEffect(() => {
     setFormAddress(orderAddress);
   }, [orderAddress]);
+
+  useEffect(() => {
+    if (addressCreated || updateAddressDB) {
+      window.location.reload();
+    }
+  }, [addressCreated, updateAddressDB]);
 
   useEffect(() => {
     dispatch(orderAddressReducer(formAddress));
@@ -85,15 +97,14 @@ function AddressForm({ hideButton = "false" }) {
       console.log("Please Enter address");
       return alert("Please Enter address");
     }
-
     if (!formAddress.email.match(validRegex)) {
       return alert("Please Enter email address");
     }
-    if(formAddress.phone.length <10){
-      return alert("Phone number at least 10 Digit number");
+    if (formAddress.phone.length !== 10) {
+      return alert("Phone number must be 10 Digit number");
     }
-    if(formAddress.pincode.length <6){
-      return alert("Pincode number at least 6 Digit number");
+    if (formAddress.pincode.length !== 6) {
+      return alert("Pincode number must be 6 Digit number");
     }
 
     dispatch(
@@ -120,114 +131,119 @@ function AddressForm({ hideButton = "false" }) {
   };
 
   return (
-    <Form>
-      <Row>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={formAddress.name}
-              onChange={handleAddress}
-              placeholder="Enter name"
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter Email"
-              name="email"
-              value={formAddress.email}
-              onChange={handleAddress}
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicPhone">
-            <Form.Label>Phone</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter phone number"
-              name="phone"
-              value={formAddress.phone}
-              onChange={handleAddress}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicState">
-            <Form.Label>State</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter state"
-              name="state"
-              value={formAddress.state}
-              onChange={handleAddress}
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicCity">
-            <Form.Label>City</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter city"
-              name="city"
-              value={formAddress.city}
-              onChange={handleAddress}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicLandmark">
-            <Form.Label>Landmark</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter landmark"
-              name="landmark"
-              value={formAddress.landmark}
-              onChange={handleAddress}
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3" controlId="formBasicPincode">
-            <Form.Label>Pincode</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter pincode"
-              name="pincode"
-              value={formAddress.pincode}
-              onChange={handleAddress}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      {hideButton === "false" && (
-        <div>
-          {updateAddress ? (
-            <button
-              className="btn btn-warning mb-4"
-              onClick={updateUserAddress}
-            >
-              Update
-            </button>
-          ) : (
-            <button className="btn btn-primary mb-4" onClick={addAddress}>
-              Submit
-            </button>
-          )}
-        </div>
+    <>
+      {updateAddressDBError && (
+        <p className="text-danger mt-3">{updateAddressDBError}</p>
       )}
-    </Form>
+      <Form className="mt-5">
+        <Row>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={formAddress.name}
+                onChange={handleAddress}
+                placeholder="Enter name"
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                name="email"
+                value={formAddress.email}
+                onChange={handleAddress}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicPhone">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter phone number"
+                name="phone"
+                value={formAddress.phone}
+                onChange={handleAddress}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicState">
+              <Form.Label>State</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter state"
+                name="state"
+                value={formAddress.state}
+                onChange={handleAddress}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicCity">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter city"
+                name="city"
+                value={formAddress.city}
+                onChange={handleAddress}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicLandmark">
+              <Form.Label>Landmark</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter landmark"
+                name="landmark"
+                value={formAddress.landmark}
+                onChange={handleAddress}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicPincode">
+              <Form.Label>Pincode</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter pincode"
+                name="pincode"
+                value={formAddress.pincode}
+                onChange={handleAddress}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        {hideButton === "false" && (
+          <div>
+            {updateAddress ? (
+              <button
+                className="btn btn-warning mb-4"
+                onClick={updateUserAddress}
+              >
+                Update
+              </button>
+            ) : (
+              <button className="btn btn-primary mb-4" onClick={addAddress}>
+                Submit
+              </button>
+            )}
+          </div>
+        )}
+      </Form>
+    </>
   );
 }
 
