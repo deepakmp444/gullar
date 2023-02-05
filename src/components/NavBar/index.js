@@ -6,7 +6,7 @@ import CartIcon from "../Icons/CartIcon";
 import PeopleIcon from "../Icons/PeopleIcon";
 import WishListIcon from "../Icons/WishListIcon";
 import { useEffect, useState } from "react";
-import { fetchProduct } from "../../store/features/productSlice";
+import { clearSingleProductErrorStatus, fetchProduct } from "../../store/features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { clearLogout, userLogout } from "../../store/features/userSlice";
 
@@ -42,6 +42,7 @@ function NavBarComponet() {
   };
 
   const handleSearchData = (value) => {
+    dispatch(clearSingleProductErrorStatus());
     setLengthOfSearch(value.length);
     setSearchedData(value);
     setLinkClicked(true);

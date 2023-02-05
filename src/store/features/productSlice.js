@@ -82,6 +82,9 @@ const productSlice = createSlice({
     closeUpdateToggle: (state, action) => {
       state.updated = false;
     },
+    clearSingleProductErrorStatus: (state, action) => {
+      state.singleProductErrorStatus = false;
+    },
   },
   extraReducers: (builder) => {
     // ! Get searched Product
@@ -141,4 +144,4 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
-// export const { closeUpdateToggle } = SubCategorySlice.actions;
+export const { clearSingleProductErrorStatus } = productSlice.actions;
