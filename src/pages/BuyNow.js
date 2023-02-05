@@ -10,7 +10,7 @@ function BuyNow() {
   const { buyNowProduct } = useSelector((state) => state.order);
   console.log("buyNowProduct:", buyNowProduct);
   const { userProfile } = useSelector((state) => state.user);
-  console.log("userProfile:", userProfile);
+  console.log("userProfile:", userProfile.id);
   const { address, orderAddress } = useSelector((state) => state.address);
   const dispatch = useDispatch();
   const navigate = useNavigate();
