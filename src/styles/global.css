@@ -22,7 +22,7 @@
     margin-top: 90px !important;
   }
 
-  .desktopMargin{
+  .desktopMargin {
     margin-top: 100px;
   }
 }
@@ -56,4 +56,9 @@ removeScrollBar {
 
 removeScrollBar::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
+}
+/*  card hover in homepage */
+.imgHoverEffect:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
 }

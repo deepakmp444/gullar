@@ -18,7 +18,7 @@ function HomePageCard() {
   return (
     <Container>
       <div className="center">
-        <div className="">
+        <div className="imgHoverEffect">
           <Link to="/product/jeans">
             <LazyLoadImage
               className="heightOfImg widthOfImg me-5"
@@ -27,7 +27,7 @@ function HomePageCard() {
             />
           </Link>
         </div>
-        <div className="">
+        <div className="imgHoverEffect">
           <Link to="/product/mentshirt">
             <LazyLoadImage
               src={MenTShirt}
@@ -39,7 +39,7 @@ function HomePageCard() {
       </div>
 
       <div className="flex-container mt-3 flex-container-side">
-        <div className="item">
+        <div className="item imgHoverEffect">
           <Link to="/product/goggle">
             <LazyLoadImage
               src={Goggle}
@@ -48,7 +48,7 @@ function HomePageCard() {
             />
           </Link>
         </div>
-        <div className="item">
+        <div className="item imgHoverEffect">
           <Link to="/product/jacket">
             <LazyLoadImage
               src={Jack}
@@ -57,7 +57,7 @@ function HomePageCard() {
             />
           </Link>
         </div>
-        <div className="item">
+        <div className="item imgHoverEffect">
           <Link to="/product/menblazer">
             <LazyLoadImage
               src={Blazers}
@@ -66,7 +66,7 @@ function HomePageCard() {
             />
           </Link>
         </div>
-        <div className="item">
+        <div className="item imgHoverEffect">
           <Link to="/product/coat">
             <LazyLoadImage
               src={Coat}
@@ -75,7 +75,7 @@ function HomePageCard() {
             />
           </Link>
         </div>
-        <div className="item">
+        <div className="item imgHoverEffect">
           <Link to="/product/sweater">
             <LazyLoadImage
               src={Sweater}
@@ -84,7 +84,7 @@ function HomePageCard() {
             />
           </Link>
         </div>
-        <div className="item">
+        <div className="item imgHoverEffect">
           <Link to="/product/tops">
             <LazyLoadImage
               src={Tops}
@@ -95,7 +95,7 @@ function HomePageCard() {
         </div>
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2 imgHoverEffect">
         <Link to="/product/menshirt">
           <LazyLoadImage
             src={ProfessionalShirt}
@@ -104,7 +104,7 @@ function HomePageCard() {
           />
         </Link>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 imgHoverEffect">
         <Link to="/product/shoes">
           <LazyLoadImage
             src={Shoe}
@@ -113,7 +113,7 @@ function HomePageCard() {
           />
         </Link>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 imgHoverEffect">
         <Link to="/product/hoodies">
           <LazyLoadImage
             src={Hoodie}
