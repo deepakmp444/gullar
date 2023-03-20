@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { url } from "../../utils/Constant";
+
 const initialState = {
   userProfile: {},
   logout: false,
@@ -340,14 +341,17 @@ const userSlice = createSlice({
     // ! userLogout
     builder.addCase(userLogout.pending, (state) => {
       state.logout = false;
+      state.profileLoading = false;
       state.error = "";
     });
     builder.addCase(userLogout.fulfilled, (state, action) => {
       state.logout = true;
+      state.profileLoading = true;
       state.error = "";
     });
     builder.addCase(userLogout.rejected, (state, action) => {
       state.logout = false;
+      state.profileLoading = false;
       state.error = action.error.message;
     });
 
@@ -445,5 +449,5 @@ export const {
   clearAccountCreated,
   createAccountBtnClickForLoginReducer,
   clearCreateAccountBtnClickForLogin,
-  clearLogout
+  clearLogout,
 } = userSlice.actions;

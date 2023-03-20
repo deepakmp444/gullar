@@ -34,6 +34,7 @@ function Login() {
 
   const loca = window.location.pathname;
   console.log("loca:", loca);
+  
   useEffect(() => {
     if (profileLoading === false && createAccountBtnClickForLogin === false) {
       navigate(-1);
