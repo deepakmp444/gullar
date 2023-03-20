@@ -57,6 +57,9 @@ function BuyNow() {
     if (totalPrice === 0) {
       navigate(-1);
     }
+    console.log('userProfile.id:', userProfile.id)
+
+
     const response = await fetch(`${url}/api/v1/orders/`, {
       method: "POST",
       headers: {
@@ -107,16 +110,9 @@ function BuyNow() {
         {show && (
           <Alert variant="danger" onClose={() => setShow(false)} dismissible>
             <Alert.Heading>
-              In mobile Razorpay payment method does not work Beacause It's in
-              testing Mode
+              Choose UPI payment then <kbd>success@razorpay</kbd>
             </Alert.Heading>
             <p>Copy and pay by upi methods</p>
-            <button
-              className="btn btn-success"
-              onClick={navigator.clipboard.writeText("success@razorpay")}
-            >
-              Copy
-            </button>
           </Alert>
         )}
 
